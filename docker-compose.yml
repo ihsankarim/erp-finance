@@ -5,10 +5,11 @@ services:
     build: .
     ports:
       - "8080:8080"
+    container_name: erp-finance-app
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/erpdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_erp_finance
       SPRING_DATASOURCE_USERNAME: erpuser
       SPRING_DATASOURCE_PASSWORD: erppass
     networks:
@@ -16,8 +17,9 @@ services:
 
   db:
     image: postgres:15
+    container_name: db_erp_finance
     environment:
-      POSTGRES_DB: erpdb
+      POSTGRES_DB: db_erp_finance
       POSTGRES_USER: erpuser
       POSTGRES_PASSWORD: erppass
     ports:

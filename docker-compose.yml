@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/erpdb
+      SPRING_DATASOURCE_USERNAME: erpuser
+      SPRING_DATASOURCE_PASSWORD: erppass
+    networks:
+      - erp-net
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: erpdb
+      POSTGRES_USER: erpuser
+      POSTGRES_PASSWORD: erppass
+    ports:
+      - "5432:5432"
+    networks:
+      - erp-net
+
+networks:
+  erp-net:

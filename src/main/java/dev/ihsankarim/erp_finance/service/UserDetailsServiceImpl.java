@@ -11,21 +11,25 @@ import org.springframework.stereotype.Service;
 
 import dev.ihsankarim.erp_finance.model.User;
 import dev.ihsankarim.erp_finance.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return new org.springframework.security.core.userdetails.User(
-            user.getUsername(),
-            user.getPassword(),
-            Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-        );
+                user.getUsername(),
+                user.getPassword(),
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
     }
-    
+
 }
